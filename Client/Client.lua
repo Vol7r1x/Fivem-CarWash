@@ -72,96 +72,6 @@ function WashMenu(Wash)
 end
 
 
---[[function WashPremium(WashPlace)
-    local PlayerPed = GetPlayerPed(-1)
-    local car = GetVehiclePedIsIn(PlayerPed, false)
-    local damage = GetVehicleBodyHealth(car)
-    local engine = GetVehicleEngineHealth(car)
-    local tank = GetVehiclePetrolTankHealth(car)
-    local hash = GetHashKey(Config.NPC)
-    local hasMoney = false
-    
-    ESX.TriggerServerCallback('vol7r1x_CarWash:checkMoney', function(cbm)
-        if cbm then
-            hasMoney = true
-        else
-            hasMoney = false    
-        end
-        
-        if damage >= Config.DamageMin then
-            if hasMoney then
-                -- PREP & FREEZE CAR
-                isWash = true           
-                Citizen.Wait(1000)
-                SetEntityCoords(car, WashPlace.carPos[1],WashPlace.carPos[2],WashPlace.carPos[3], false, false, false, true)
-                SetEntityHeading(car, WashPlace.carHeading)
-                SetVehicleOnGroundProperly(car)
-                FreezeEntityPosition(car, true)
-
-                --PREP MODEL & LOAD
-                Citizen.Wait(100)
-                RequestModel(hash)
-                while not HasModelLoaded(hash) do
-                    Wait(1)
-                end
-
-                --SPAWN & ANIME PED
-                local npc = CreatePed(6, hash, WashPlace.NPCspawn[1], WashPlace.NPCspawn[2], WashPlace.NPCspawn[3], 90.0, true, true)
-                local npc2 = CreatePed(6, hash, WashPlace.NPCspawn2[1], WashPlace.NPCspawn2[2], WashPlace.NPCspawn2[3], 90.0, true, true)
-                SetModelAsNoLongerNeeded(model)
-            
-                TaskGoToCoordAnyMeans(npc, WashPlace.NPCpos1[1], WashPlace.NPCpos1[2], WashPlace.NPCpos1[3], 2.0, 0, 0, 786603, 0xbf800000)
-                TaskGoToCoordAnyMeans(npc2, WashPlace.NPCpos3[1], WashPlace.NPCpos3[2], WashPlace.NPCpos3[3], 2.0, 0, 0, 786603, 0xbf800000)
-                Citizen.Wait(7000)
-                TaskStartScenarioInPlace(npc, "WORLD_HUMAN_MAID_CLEAN", -1, true)
-                TaskStartScenarioInPlace(npc2, "WORLD_HUMAN_MAID_CLEAN", -1, true)
-                Citizen.Wait(Config.NPCwashTime)
-
-                --PARTICLE & WASH
-                RequestNamedPtfxAsset("core")
-                while not HasNamedPtfxAssetLoaded("core") do
-                    Citizen.Wait(0)
-                end
-                ClearPedTasksImmediately(npc)
-                UseParticleFxAssetNextCall("core")
-                local particles  = StartParticleFxLoopedAtCoord("ent_amb_waterfall_splash_p", WashPlace.carPos[1], WashPlace.carPos[2], WashPlace.carPos[3], 0.0, 0.0, 90.0, 1.0, 1, 1, 1, false)
-                UseParticleFxAssetNextCall("core")
-                local particles2  = StartParticleFxLoopedAtCoord("ent_amb_waterfall_splash_p", WashPlace.carPos[1] + 2.0, WashPlace.carPos[2], WashPlace.carPos[3], 0.0, 0.0, 90.0, 1.0, 1, 1, 1, false)
-                TaskGoToCoordAnyMeans(npc, WashPlace.NPCpos2[1], WashPlace.NPCpos2[2], WashPlace.NPCpos2[3], 2.0, 0, 0, 786603, 0xbf800000)
-                TaskGoToCoordAnyMeans(npc2, WashPlace.NPCpos4[1], WashPlace.NPCpos4[2], WashPlace.NPCpos4[3], 2.0, 0, 0, 786603, 0xbf800000)
-                Citizen.Wait(Config.ParticleTime)
-                
-                StopParticleFxLooped(particles, 0)
-                StopParticleFxLooped(particles2, 0)
-                SetEntityHeading(npc, WashPlace.NPCpos2[4])
-                SetEntityHeading(npc2, WashPlace.NPCpos1[4])
-                TaskStartScenarioInPlace(npc, "WORLD_HUMAN_MAID_CLEAN", -1, true)
-                TaskStartScenarioInPlace(npc2, "WORLD_HUMAN_MAID_CLEAN", -1, true)
-                Citizen.Wait(Config.NPCwashTime)
-                SetPedAsNoLongerNeeded(npc)
-                SetPedAsNoLongerNeeded(npc2)
-                TaskGoToCoordAnyMeans(npc, 179.011, -1711.872, 29.2799, 2.0, 0, 0, 786603, 0xbf800000)
-                TaskGoToCoordAnyMeans(npc2, 179.011, -1711.872, 29.2799, 2.0, 0, 0, 786603, 0xbf800000)
-                
-                WashDecalsFromVehicle(car, 1.0)
-                SetVehicleDirtLevel(car)
-                SetVehicleFixed(car)
-                SetVehicleBodyHealth(car, 1000.0)
-                SetVehicleEngineHealth(car, engine)
-                SetVehiclePetrolTankHealth(car, tank)
-                FreezeEntityPosition(car, false)
-                ShowNotifyESX(Lang["premium_wash"])
-                isWash = false            
-            else       
-                ShowNotifyESX(Lang["no_money"])
-            end
-        else
-            ShowNotifyESX(Lang["too_damage"])
-        end
-    end,"P")        
-end--]]
-
-
 function WashStandard(WashPlace)
     local PlayerPed = GetPlayerPed(-1)
     local car = GetVehiclePedIsIn(PlayerPed, false)
@@ -191,11 +101,9 @@ function WashStandard(WashPlace)
                 Wait(1)
             end
 
-            --SPAWN & ANIME PED
+           
             local npc = CreatePed(6, hash, WashPlace.NPCspawn[1], WashPlace.NPCspawn[2], WashPlace.NPCspawn[3], 90.0, true, true)
-            --SetModelAsNoLongerNeeded(model)
         
-            --TaskGoToCoordAnyMeans(npc, WashPlace.NPCpos1[1], WashPlace.NPCpos1[2], WashPlace.NPCpos1[3], 2.0, 0, 0, 786603, 0xbf800000)
             TaskGoStraightToCoord(npc, WashPlace.NPCpos1[1], WashPlace.NPCpos1[2], WashPlace.NPCpos1[3], 2.0, -1, WashPlace.NPCpos1[4], 0.0)
             Citizen.Wait(8000)
             TaskStartScenarioInPlace(npc, "WORLD_HUMAN_MAID_CLEAN", -1, true)
@@ -219,7 +127,6 @@ function WashStandard(WashPlace)
             SetEntityHeading(npc, WashPlace.NPCpos2[4])
             TaskStartScenarioInPlace(npc, "WORLD_HUMAN_MAID_CLEAN", -1, true)
             Citizen.Wait(Config.NPCwashTime)
-            --SetPedAsNoLongerNeeded(npc)
             
             
             WashDecalsFromVehicle(car, 1.0)
