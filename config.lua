@@ -18,7 +18,7 @@ Config.WashPlaces = {
         carPos = {175.89, -1736.73, 29.30},
         carHeading = 271.01,
 		heading = 338.93,
-		blip = {enable = true, sprite = 100, display = 4, scale = 0.65, color = 3, name = "waschanlage"},
+		blip = {enable = true, sprite = 100, display = 4, scale = 0.65, color = 3, name = "washing"},
 		marker = {enable = true, drawDist = 10.0, type = 27, scale = {x = 0.5, y = 0.5, z = 0.5}, color = {r = 60, g = 255, b = 0, a = 100}},
 	},
 }
