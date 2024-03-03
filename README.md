@@ -1,3 +1,3 @@
 # Fivem-CarWash
 
-A simple Fivem Carwash Script with many Config options for your Server.
+A simple Fivem Carwash Script with Config options for your Server.
